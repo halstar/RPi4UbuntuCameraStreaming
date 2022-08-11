@@ -5,6 +5,7 @@
 # ...and...
 # https://docs.opencv.org/4.x/dd/d43/tutorial_py_video_display.html
 
+import os
 import io
 import cv2
 import shutil
@@ -67,15 +68,16 @@ class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
     allow_reuse_address = True
     daemon_threads      = True
 
-# open camera
+# Open camera
 camera = cv2.VideoCapture('/dev/video0', cv2.CAP_V4L)
 
-# set dimensions
+# Set dimensions
 camera.set(cv2.CAP_PROP_FRAME_WIDTH , 640)
 camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 
 output = StreamingOutput()
 
+# Start streaming server
 try:
     logging.getLogger().setLevel(logging.INFO)
     logging.info('Starting streaming server')
@@ -84,3 +86,5 @@ try:
     server.serve_forever()
 finally:
     camera.release()
+    if os.path.exists('image.jpg'):
+        os.remove('image.jpg')

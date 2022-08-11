@@ -1,6 +1,6 @@
 Found no out of the box script/binary to stream a regular Raspberry Pi camera, out of my Raspberry Pi 4 running Ubuntu, to get it displayed on a remote PC.
 
-As getting it work required some efforts, I am sharing here my working solution.
+As getting it work required some efforts, I am sharing here my working solution based on Python and OpenCV.
 
 ## Environment
 
@@ -18,8 +18,11 @@ As getting it work required some efforts, I am sharing here my working solution.
 - In case you modified config.txt, reboot,
 - Run the camera streaming script: "python3 RPi4UbuntuCameraStreaming.py"
 - On the PC, launch your favorite web browser at the following address:
-    - http://192.168.0.40:8000/index.html (replace 192.168.0.40 with your own Raspberry Pi's IP or hostname)
+    - http://192.168.0.40:8000
     - You are done!... ^_^
+- Notes:
+    - Replace 192.168.0.40 with your own Raspberry Pi's IP or hostname,
+    - Image size (default is 640x480) and port (default is 8000) can be changed in RPi4UbuntuCameraStreaming.py.
 
 ![Screenshot](capture.png)
 
