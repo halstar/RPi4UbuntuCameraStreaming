@@ -1,6 +1,9 @@
-# Web streaming example
-# Source code from the official PiCamera package
+# Web streaming example working on a Raspberry Pi 4 with Ubuntu Mate 20.04
+#
+# We got a mix here of:
 # http://picamera.readthedocs.io/en/latest/recipes2.html#web-streaming
+# ...and...
+# https://docs.opencv.org/4.x/dd/d43/tutorial_py_video_display.html
 
 import io
 import cv2
@@ -32,7 +35,7 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
         elif self.path == '/index.html':
             content = PAGE.encode('utf-8')
             self.send_response(200)
-            self.send_header('Content-Type', 'text/html')
+            self.send_header('Content-Type'  , 'text/html')
             self.send_header('Content-Length', len(content))
             self.end_headers()
             self.wfile.write(content)
@@ -40,8 +43,8 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
             self.send_response(200)
             self.send_header('Age', 0)
             self.send_header('Cache-Control', 'no-cache, private')
-            self.send_header('Pragma', 'no-cache')
-            self.send_header('Content-Type', 'multipart/x-mixed-replace; boundary=FRAME')
+            self.send_header('Pragma'       , 'no-cache')
+            self.send_header('Content-Type' , 'multipart/x-mixed-replace; boundary=FRAME')
             self.end_headers()
             try:
                 while True:
@@ -52,17 +55,17 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                     self.end_headers()
                     with open('image.jpg', 'rb') as content:
                         shutil.copyfileobj(content, self.wfile)
-            except Exception as e:
+            except Exception as error:
                 logging.warning(
-                    'Removed streaming client %s: %s',
-                    self.client_address, str(e))
+                    'Removed streaming client: %s: %s',
+                    self.client_address, str(error))
         else:
-            self.send_error(404)
+            self.send_error (404)
             self.end_headers()
 
 class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
     allow_reuse_address = True
-    daemon_threads = True
+    daemon_threads      = True
 
 # open camera
 camera = cv2.VideoCapture('/dev/video0', cv2.CAP_V4L)
@@ -74,8 +77,10 @@ camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 output = StreamingOutput()
 
 try:
+    logging.getLogger().setLevel(logging.INFO)
+    logging.info('Starting streaming server')
     address = ('', 8000)
-    server = StreamingServer(address, StreamingHandler)
+    server  = StreamingServer(address, StreamingHandler)
     server.serve_forever()
 finally:
     camera.release()

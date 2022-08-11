@@ -10,7 +10,8 @@ As getting it work required some efforts, I am sharing here my working solution.
 
 ## How to
 
-- Install OpenCV's python package: "pip3 install opencv-python"
+- Install Python's high-level file operation package: "pip3 install shutil",
+- Install OpenCV's Python package: "pip3 install opencv-python",
 - Check/Update /boot/firmware/config.txt to make sure the following is present:
     - start_x=1
     - gpu_mem=16
