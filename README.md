@@ -4,21 +4,21 @@ As getting it work required some efforts, I am sharing here my working solution.
 
 ## Environment
 
+- Tested only on Raspberry Pi 4 Model B Rev 1.4,
 - Tested only on Ubuntu Mate 20.04.3 LTS (a.k.a. Focal Fossa),
-- No guarantee this would work also on any other distro,
+- No guarantee this would work also on any other hardware/distro,
 
 ## How to
 
 - Install OpenCV's python package: "pip3 install opencv-python"
 - Check/Update /boot/firmware/config.txt to make sure the following is present:
--- start_x=1
--- gpu_mem=16
+    - start_x=1
+    - gpu_mem=16
 - In case you modified config.txt, reboot,
 - Run the camera streaming script: "python3 RPi4UbuntuCameraStreaming.py"
 - On the PC, launch your favorite web browser at the following address:
--- http://192.168.0.40:8000/index.html
- (replace 192.168.0.40 with your own Raspberry Pi's IP or hostname)
--- You are done!... ^_^
+    - http://192.168.0.40:8000/index.html (replace 192.168.0.40 with your own Raspberry Pi's IP or hostname)
+    - You are done!... ^_^
 
 ![Screenshot](capture.png)
 
