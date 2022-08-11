@@ -17,6 +17,17 @@ As getting it work required some efforts, I am sharing here my working solution.
 - Run the camera streaming script: "python3 RPi4UbuntuCameraStreaming.py"
 - On the PC, launch your favorite web browser at the following address:
 -- http://192.168.0.40:8000/index.html
--- (replace 192.168.0.40 with your own Raspberry Pi's IP or hostname)
+ (replace 192.168.0.40 with your own Raspberry Pi's IP or hostname)
+-- You are done!... ^_^
 
+![Screenshot](capture.png)
+
+## Side notes
+
+Couple helpful commands:
+- vcgencmd get_camera
+- raspistill -o test.image.jpg
+- raspivid -t 10000 -o test.video.h264
+- sudo apt install v4l-utils
+- v4l2-ctl --list-formats
 
