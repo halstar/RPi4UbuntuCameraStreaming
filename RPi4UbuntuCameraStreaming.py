@@ -7,7 +7,9 @@
 
 import os
 import io
+import sys
 import cv2
+import signal
 import shutil
 import logging
 import socketserver
@@ -68,6 +70,26 @@ class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
     allow_reuse_address = True
     daemon_threads      = True
 
+def cleanup():
+    global camera
+
+    if camera is not None:
+        camera.release()
+
+    if os.path.exists('image.jpg'):
+        os.remove('image.jpg')
+
+    logging.info('Exiting...')
+
+    sys.exit(0)
+
+def signalHandler(sig, frame):
+    cleanup()
+
+camera = None
+
+signal.signal(signal.SIGINT, signalHandler)
+
 # Open camera
 camera = cv2.VideoCapture('/dev/video0', cv2.CAP_V4L)
 
@@ -85,6 +107,5 @@ try:
     server  = StreamingServer(address, StreamingHandler)
     server.serve_forever()
 finally:
-    camera.release()
-    if os.path.exists('image.jpg'):
-        os.remove('image.jpg')
+    cleanup()
+
